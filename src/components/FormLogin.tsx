@@ -1,5 +1,5 @@
 "use client";
-import { Person, Visibility } from "@mui/icons-material";
+import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Container,
@@ -37,13 +37,30 @@ export default function FormLogin() {
       }}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Typography variant="h3">Iniciar sesión</Typography>
+      <Typography
+        sx={{
+          fontSize: {
+            xs: "1.1rem",
+            md: "2.5rem",
+          },
+          fontFamily: "sans-serif",
+          fontWeight: "bold",
+          color: "black",
+        }}
+      >
+        Iniciar sesión
+      </Typography>
       <TextField
         slotProps={{
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <Person />
+                <Person
+                sx={{
+                  fontSize: "1.2rem",
+                  
+                }}
+                />
               </InputAdornment>
             ),
           },
@@ -58,11 +75,21 @@ export default function FormLogin() {
           input: {
             startAdornment: (
               <InputAdornment onClick={handleClick} position="start">
-                <Visibility
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                />
+                {showPassword ? (
+                  <Visibility
+                    sx={{
+                      cursor: "pointer",
+                      fontSize: "1.2rem",
+                    }}
+                  />
+                ) : (
+                  <VisibilityOff
+                    sx={{
+                      cursor: "pointer",
+                      fontSize: "1.2rem",
+                    }}
+                  />
+                )}
               </InputAdornment>
             ),
           },
@@ -71,6 +98,7 @@ export default function FormLogin() {
         type={showPassword ? "text" : "password"}
         label="Contraseña"
         error={false}
+        autoComplete="off"
       />
       <Button type="submit">Iniciar sesión</Button>
     </Container>
