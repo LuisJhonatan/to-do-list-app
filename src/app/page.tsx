@@ -11,7 +11,7 @@ export default function Home() {
         fill
         style={{
           objectFit: "cover",
-          filter: "brightness(50%) contrast(120%)", // Aplicar filtros
+          filter: "brightness(50%) contrast(120%)",
         }}
         quality={100}
         priority
@@ -20,12 +20,15 @@ export default function Home() {
         <Image
           src="/img/Logo.png"
           alt="Picture of thpnge author"
-          width={100}
-          height={100}
+          width={150}
+          height={150}
         />
         <Typography
           sx={{
-            fontSize: "1.1rem",
+            fontSize: {
+              xs: "1.1rem",
+              md: "2.5rem",
+            },
             fontFamily: "sans-serif",
             fontWeight: "bold",
             color: "white",
@@ -35,7 +38,10 @@ export default function Home() {
         </Typography>
         <Typography
           sx={{
-            fontSize: "1.1rem",
+            fontSize: {
+              xs: "1.1rem",
+              md: "2.5rem",
+            },
             fontFamily: "sans-serif",
             color: "white",
           }}
@@ -43,8 +49,29 @@ export default function Home() {
           Añade, organiza y completa.
         </Typography>
         <div className="flex gap-4 mt-4">
-        <Button variant="contained">Contained</Button>
-        <Button color="secondary" variant="contained">Comenzar</Button>
+          <Button
+            sx={{
+              fontSize: {
+                xs: "0.8rem",
+                md: "1.25rem",
+              },
+            }}
+            variant="contained"
+          >
+            Registrate
+          </Button>
+          <Button
+            sx={{
+              fontSize: {
+                xs: "0.8rem",
+                md: "1.25rem",
+              },
+            }}
+            color="secondary"
+            variant="contained"
+          >
+            Comenzar !
+          </Button>
         </div>
       </div>
     </>
