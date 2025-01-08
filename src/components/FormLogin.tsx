@@ -7,11 +7,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 interface Inputs {
-  email: string;
+  correo: string;
   password: string;
 }
 
@@ -24,7 +25,17 @@ export default function FormLogin() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    }).then((data)=> {
+      console.log(data);
+      redirect("/home");
+    });
   };
 
   return (
@@ -65,7 +76,7 @@ export default function FormLogin() {
             ),
           },
         }}
-        {...register("email")}
+        {...register("correo")}
         type="email"
         label="Correo electrónico"
         error={false}
