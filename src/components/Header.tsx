@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useUser } from "@/app/context/UserContext";
 
 export default function Header() {
-    const {user} = useUser();
+    const user = useUser();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -99,8 +99,8 @@ export default function Header() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-                <MenuItem>Id: {user.uid} </MenuItem>
-                <MenuItem>Email: {user.email} </MenuItem>
+                <MenuItem>Id: {user.user.uid} </MenuItem>
+                <MenuItem>Email: {user.user.email} </MenuItem>
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
             </Menu>
