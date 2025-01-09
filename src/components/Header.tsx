@@ -15,11 +15,11 @@ import { useState } from "react";
 import { useUser } from "@/app/context/UserContext";
 
 export default function Header() {
-    const user = useUser();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+    const {user} = useUser();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleMenu = (event) => {
+  const handleMenu = (event : React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -27,7 +27,7 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const handleMenuOpen = (event) => {
+  const handleMenuOpen = (event : React.MouseEvent<HTMLButtonElement>) => {
     setMenuAnchorEl(event.currentTarget);
   };
 
@@ -99,8 +99,8 @@ export default function Header() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-                <MenuItem>Id: {user.user.uid} </MenuItem>
-                <MenuItem>Email: {user.user.email} </MenuItem>
+                <MenuItem>Id: {user.uid} </MenuItem>
+                <MenuItem>Email: {user.email} </MenuItem>
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
             </Menu>
