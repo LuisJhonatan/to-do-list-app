@@ -1,4 +1,5 @@
 "use client";
+import { useUser } from "@/app/context/UserContext";
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
@@ -17,6 +18,7 @@ interface Inputs {
 }
 
 export default function FormLogin() {
+  const user = useUser();
   const { register, handleSubmit } = useForm<Inputs>();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -33,7 +35,7 @@ export default function FormLogin() {
         return response.json();
       }
     }).then((data)=> {
-      console.log(data);
+      user.setUser(data);
       redirect("/home");
     });
   };
