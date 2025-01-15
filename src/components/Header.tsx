@@ -13,13 +13,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { AccountCircle } from "@mui/icons-material";
 import { useState } from "react";
 import { useUser } from "@/app/context/UserContext";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase/config";
+import { redirect } from "next/navigation";
 
 export default function Header() {
-    const user = useUser();
+  const user = useUser();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleMenu = (event : React.MouseEvent<HTMLButtonElement>) => {
+  const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -27,13 +30,25 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const handleMenuOpen = (event : React.MouseEvent<HTMLButtonElement>) => {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setMenuAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
   };
+
+  const handleLogout = async () => {
+    signOut(auth);
+    user.setUser({
+      uid: "",
+      email: "",
+      displayName: "",
+      phoneNumber: "",
+      photoURL: "",
+    })
+    redirect("/");
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -99,10 +114,11 @@ export default function Header() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-                <MenuItem>Id: {user.user.uid} </MenuItem>
-                <MenuItem>Email: {user.user.email} </MenuItem>
+              <MenuItem>Id: {user.user.uid} </MenuItem>
+              <MenuItem>Email: {user.user.email} </MenuItem>
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>

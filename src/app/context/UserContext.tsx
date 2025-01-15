@@ -1,7 +1,7 @@
 "use client";
 import { auth } from "@/firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createContext, useState, ReactNode, useContext, useEffect } from "react";
 
 interface User {
@@ -33,6 +33,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     phoneNumber: "",
     photoURL: "",
   });
+  const router = useRouter();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -43,10 +44,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           phoneNumber: user.phoneNumber,
           photoURL: user.photoURL,
         });
-        redirect("/home");
+        router.push("/home");
       }
     });
-    
     return () => unsubscribe();
   }, []);
 

@@ -1,5 +1,6 @@
 "use client";
 import { useUser } from "@/app/context/UserContext";
+import { auth } from "@/firebase/config";
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
@@ -8,9 +9,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { redirect } from "next/navigation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 interface Inputs {
   correo: string;
@@ -21,23 +23,30 @@ export default function FormLogin() {
   const user = useUser();
   const { register, handleSubmit } = useForm<Inputs>();
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
+  const onSubmit= async (data: Inputs) => {
+    try {
+      const response = await signInWithEmailAndPassword(auth, data.correo, data.password);
+      const u = {
+        uid: response.user.uid,
+        email: response.user.email,
+        displayName: response.user.displayName,
+        phoneNumber: response.user.phoneNumber,
+        photoURL: response.user.photoURL,
       }
-    }).then((data)=> {
-      user.setUser(data);
-      redirect("/home");
-    });
+      user.setUser(u);
+      router.push("/home");      
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      
+    }
   };
 
   return (
